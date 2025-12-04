@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Web Fun & Coloré</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 25%, #48dbfb 50%, #ff9ff3 75%, #667eea 100%),
+                        url('https://i.imgur.com/zjGz1gY.png') no-repeat center center;
+            background-size: cover;
+            color: white;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            padding: 25px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: rainbow 3s infinite alternate;
+        }
+        @keyframes rainbow { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+
+        nav ul { list-style: none; display: flex; justify-content: center; gap: 35px; flex-wrap: wrap; }
+        nav button {
+            background: white;
+            border: 5px solid #000;
+            padding: 18px 36px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 10px 10px 0 #000;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            color: #333;
+        }
+        nav button:hover { transform: translate(5px,5px); box-shadow:5px 5px 0 #000; background:#feca57; }
+        nav button.active { background:#ff6b6b; color:white; }
+
+        /* Pages Container */
+        .page { display: none; min-height: calc(100vh - 100px); padding: 50px 25px; background: inherit; text-align:center; }
+        .page.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+        /* Accueil */
+        #accueil h1 { font-size: 70px; margin-bottom:50px; text-shadow:5px 5px 0 #000; }
+        #accueil p { font-size:28px; max-width:1000px; margin:0 auto 50px auto; text-shadow:3px 3px 0 #000; }
+
+
+
+
+
+        /* Cards */
+        .cards-container { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; margin-top:30px; }
+        .card { background: rgba(0,0,0,0.5); padding:25px; border-radius:20px; width:300px; text-align:left; box-shadow:5px 5px 0 #000; }
+        .card h2 { margin-bottom:15px; font-size:24px; }
+        .card p { font-size:18px; }
+
+
+
+
+
+        #quizContainer h2 { font-size:28px; margin-bottom:20px; text-shadow:2px 2px 0 #000; }
+        .quizBtn {
+            background:white; border:3px solid #000; padding:15px 30px;
+            font-size:22px; margin:10px; border-radius:30px; cursor:pointer;
+            text-transform:uppercase; font-weight:bold; color:#333; box-shadow:5px 5px 0 #000;
+            transition: all 0.3s;
+        }
+        .quizBtn:hover { transform:translate(3px,3px); box-shadow:3px 3px 0 #000; background:#feca57; }
+
+        #quizMessage { font-size:22px; font-weight:bold; margin-top:20px; text-shadow:2px 2px 0 #000; }
+
+        /* Snake Page */
+        #snakeWrapper { text-align:center; }
+        #scoreBox { font-size:36px; font-weight:bold; margin-bottom:25px; text-shadow:3px 3px 0 #000; }
+        #snakePage canvas { border:6px solid #fff; background: linear-gradient(135deg,#48dbfb,#1dd1a1); box-shadow:12px 12px 0 #000; }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><button onclick="showPage('accueil')" class="active">Accueil</button></li>
+            <li><button onclick="showPage('apropos')">À Propos</button></li>
+            <li><button onclick="showPage('membres')">Membres</button></li>
+            <li><button id="snakeNavBtn" onclick="showPage('snakePage')" style="display:none;">???</button></li>
+        </ul>
+    </nav>
+
+    <!-- Page Accueil -->
+    <div id="accueil" class="page active">
+        <h1>BIENVENUE DANS LE VILLAGE NUMÉRIQUE RÉSISTANT!</h1>
+        <p>Dans notre village numérique résistant, nous créons un espace où la créativité et l'indépendance technologique prévalent. Nous pouvons naviguer sur le web, apprendre et jouer sans dépendre des géants comme Google, Microsoft, YouTube ou Apple.</p>
+
+        <div id="quizContainer">
+            <h2>Question: Quel est l'objectif principal du "Village Numérique Résistant" ?</h2>
+            <button class="quizBtn" onclick="checkAnswer('wrong')">1️⃣ Créer un réseau social privé</button>
+            <button class="quizBtn" onclick="checkAnswer('correct')">2️⃣ Promouvoir l'indépendance numérique et la créativité</button>
+            <button class="quizBtn" onclick="checkAnswer('wrong')">3️⃣ Développer des jeux vidéo traditionnels</button>
+            <p id="quizMessage"></p>
+        </div>
+    </div>
+
+    <!-- À Propos Page -->
+    <div id="apropos" class="page">
+        <h1>À PROPOS</h1>
+        <div class="cards-container">
+            <div class="card">
+                <h2>💡 Idée Générale</h2>
+                <p>Notre projet vise à créer une expérience unique et innovante qui combine créativité, technologie et travail d'équipe, permettant de résister aux géants du numérique.</p>
+            </div>
+            <div class="card">
+                <h2>🎯 Objectifs</h2>
+                <p>Développer des compétences techniques, favoriser la collaboration, innover et créer des solutions impactantes pour notre communauté numérique indépendante.</p>
+            </div>
+            <div class="card">
+                <h2>🔗 Thème & Défi</h2>
+                <p>Le thème choisi met en avant la résistance numérique et la créativité, en proposant des expériences ludiques et éducatives, comme le jeu Snake.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Membres Page -->
+    <div id="membres" class="page">
+    <h1>🔥 ESSTHS TITAN CREW 🔥</h1>
+
+    <div class="star-container">
+        <span class="star">⭐</span>
+        <span class="star">⭐</span>
+        <span class="star">⭐</span>
+        <span class="star">⭐</span>
+    </div>
+
+    <div style="margin-top:40px; font-size:40px; font-weight:bold; line-height:1.6; font-family:'Comic Sans MS', cursive;">
+        
+        <p style="color:#000103;">✨ Ahmed Bouafif</p>
+        <p style="color:#000103;">💫 Zayd Jaballi</p>
+        <p style="color:#000103;">🌟 Ghassen Trabelsi</p>
+        <p style="color:#000103;">🔥 Fatma Il Haj Ayach</p>
+        <p style="color:#000103;">⚡ Lina Zoukar</p>
+        <p style="color:#000103;">✨ Wathah Aziz</p>
+        <p style="color:#000103;">💫 Azza Bouzir</p>
+        <p style="color:#000103;">💫 Rayen Bou Abidi</p>
+        <p style="color:#000103;">🌟 Mouhamed Abd Allah Goulli</p>
+        <p style="color:#000103;">🔥 Adem Harrabi</p>
+        <p style="color:#000103;">⚡ Loay Bouzabiya</p>
+        <p style="color:#000103;">✨ Ahmed Mahmoudi</p>
+        <p style="color:#000103;">💫 Mariem Il Toumi</p>
+        <p style="color:#000103;">🌟 Roua Bin Razough</p>
+        <p style="color:#000103;">🔥 Liyes Saoudi</p>
+
+    </div>
+</div>
+
+    <!-- Snake Game Page -->
+    <div id="snakePage" class="page">
+        <div id="snakeWrapper">
+            <div id="scoreBox">Score: 0</div>
+            <canvas width="600" height="600" id="game"></canvas>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function checkAnswer(answer) {
+            const snakeBtn = document.getElementById('snakeNavBtn');
+            const quizMessage = document.getElementById('quizMessage');
+
+            if(answer === 'correct') {
+                quizMessage.textContent = "✅ Bonne réponse ! Le jeu Snake est maintenant disponible.";
+                snakeBtn.style.display = "inline-block"; // Show snake button
+            } else {
+                quizMessage.textContent = "❌ Mauvaise réponse. Il n'y a pas de jeu Snake pour vous.";
+                snakeBtn.style.display = "none"; // Hide snake button
+            }
+        }
+
+        // Snake Game
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+        const grid = 20;
+        let count = 0;
+        let score = 0;
+
+        let snake = { x: 200, y: 200, dx: grid, dy: 0, cells: [], maxCells: 4 };
+        let apple = { x: 300, y: 300 };
+
+        let logos = [
+            'data:image/svg+xml;utf8,<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="%23ffffff" stroke="%23e6e6e6" stroke-width="1"></circle><path d="M32 10 A22 22 0 0 1 54 32 L44 32 A12 12 0 0 0 32 20 Z" fill="%234285F4"></path><path d="M54 32 A22 22 0 0 1 32 54 L32 44 A12 12 0 0 0 44 32 Z" fill="%2334A853"></path><path d="M32 54 A22 22 0 0 1 10 32 L20 32 A12 12 0 0 0 32 44 Z" fill="%23FBBC05"></path><path d="M10 32 A22 22 0 0 1 32 10 L32 20 A12 12 0 0 0 20 32 Z" fill="%23EA4335"></path><circle cx="32" cy="32" r="10" fill="%23fff"></circle></svg>',
+            'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
+            'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
+            'https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png'
+        ];
+
+        let logoImg = new Image();
+        logoImg.src = logos[Math.floor(Math.random()*logos.length)];
+
+        function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min)) + min; }
+
+        function loop() {
+            requestAnimationFrame(loop);
+            if (++count < 4) return;
+            count = 0;
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+
+            snake.x += snake.dx;
+            snake.y += snake.dy;
+
+            if (snake.x < 0) snake.x = canvas.width - grid;
+            else if (snake.x >= canvas.width) snake.x = 0;
+            if (snake.y < 0) snake.y = canvas.height - grid;
+            else if (snake.y >= canvas.height) snake.y = 0;
+
+            snake.cells.unshift({x: snake.x, y: snake.y});
+            if (snake.cells.length > snake.maxCells) snake.cells.pop();
+
+            ctx.drawImage(logoImg, apple.x, apple.y, grid-1, grid-1);
+
+            ctx.fillStyle = 'green';
+            snake.cells.forEach((cell, index) => {
+                ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
+                if (cell.x === apple.x && cell.y === apple.y) {
+                    snake.maxCells++;
+                    score++;
+                    document.getElementById('scoreBox').textContent = 'Score: ' + score;
+                    apple.x = getRandomInt(0, 30) * grid;
+                    apple.y = getRandomInt(0, 30) * grid;
+                    logoImg.src = logos[Math.floor(Math.random()*logos.length)];
+                }
+                for (let i=index+1;i<snake.cells.length;i++){
+                    if (cell.x===snake.cells[i].x && cell.y===snake.cells[i].y){
+                        snake.x=200; snake.y=200; snake.cells=[]; snake.maxCells=4; snake.dx=grid; snake.dy=0;
+                        score = 0;
+                        document.getElementById('scoreBox').textContent = 'Score: 0';
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function(e){
+            if ([37,38,39,40].includes(e.which)) e.preventDefault();
+            if(e.which===37 && snake.dx===0){ snake.dx=-grid; snake.dy=0; }
+            else if(e.which===38 && snake.dy===0){ snake.dx=0; snake.dy=-grid; }
+            else if(e.which===39 && snake.dx===0){ snake.dx=grid; snake.dy=0; }
+            else if(e.which===40 && snake.dy===0){ snake.dx=0; snake.dy=grid; }
+        });
+
+        requestAnimationFrame(loop);
+    </script>
+</body>
+</html>
